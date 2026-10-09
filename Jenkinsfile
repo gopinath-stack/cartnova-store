@@ -18,8 +18,8 @@ pipeline{
             steps{
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]){
                     bat 'echo %PASS%| docker login -u %USER% --password-stdin'
-                    bat 'docker compose push gopimano1997/cn-backend:%TAG%'
-                    bat 'docker compose push gopimano1997/cn-frontend:%TAG%'
+                    bat 'docker push gopimano1997/cn-backend:%TAG%'
+                    bat 'docker push gopimano1997/cn-frontend:%TAG%'
                 }
             }
         }
