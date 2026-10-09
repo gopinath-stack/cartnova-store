@@ -3,6 +3,10 @@ pipeline{
     environment{
         TAG = "${env.BUILD_NUMBER}"
     }
+    triggers{
+        pollSCM('H/5 * * * *')
+        cron('H 2 * * *')
+    }
     stages{
         stage('Build'){
             steps{
@@ -43,5 +47,10 @@ pipeline{
     }
     post{
         always {bat 'if exist db.env del db.env'}
+        failure {
+            mail to: "gopimano1997@gmail.com" ,
+            subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}" ,
+            body: "Build failed. check logs: ${env.BUILD_URL}console"
+        }
     }
 }
