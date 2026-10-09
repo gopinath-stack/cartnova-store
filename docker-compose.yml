@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:17
+    env_file: db.env
+    environment:
+      POSTGRES_DB: shopflow
+      POSTGRES_USER: shopflow
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+  
+  backend:
+    build: ./backend
+    env_file: db.env
+    environment:
+      DB_HOST: db
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  dbdata:
