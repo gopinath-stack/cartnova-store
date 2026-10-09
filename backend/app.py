@@ -26,7 +26,7 @@ def allow_frontend(response):
 
 @app.route("/health")
 def health():
-    return jsonify(status="ok")
+    return jsonify(status="okk")
 
 
 @app.route("/api/products")
